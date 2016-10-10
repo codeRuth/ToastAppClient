@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="colorPrimary">#F05D4A</color>
+    <color name="colorPrimaryDark">#CC4F3F</color>
+    <color name="colorAccent">#F05D4A</color>
+    <color name="tab_indicator">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="secondary_text">#706f6c</color>
+    <color name="pressedColor">#e7e7e7</color>
+    <color name="year">#999999</color>
+    <color name="title">#222222</color>
+
+    <color name="accent_dark">#ff2929</color>
+    <color name="accent">#ff5252</color>
+    <color name="secondary_text_color">#727272</color>
+    <color name="white_overlay">#F3F3F3</color>
+
+
+    <color name="bg_login">#26ae90</color>
+    <color name="bg_register">#2e3237</color>
+    <color name="bg_main">#428bca</color>
+    <color name="input_login">#222222</color>
+    <color name="input_login_hint">#999999</color>
+    <color name="input_register">#888888</color>
+    <color name="input_register_bg">#3b4148</color>
+    <color name="input_register_hint">#5e6266</color>
+    <color name="btn_login">#26ae90</color>
+    <color name="btn_login_bg">#eceef1</color>
+    <color name="lbl_name">#333333</color>
+    <color name="btn_logut_bg">#ff6861</color>
+</resources>

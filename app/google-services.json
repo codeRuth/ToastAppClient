@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "427792217139",
+    "firebase_url": "https://toastapp-15007.firebaseio.com",
+    "project_id": "toastapp-15007",
+    "storage_bucket": "toastapp-15007.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427792217139:android:8f416029f3172e0c",
+        "android_client_info": {
+          "package_name": "com.thecodesparts.toastappclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427792217139-tosp4305gmhpgjggvb10u7o34u4gg5vc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfenbKW2JmU0GLAXpIEeRjlDLe31W9uV4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

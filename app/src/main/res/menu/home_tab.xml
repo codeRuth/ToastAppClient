@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_search_home"
+        android:tint="@android:color/white"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_search_action"
+        android:title="Search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView"/>
+
+    <item android:id="@+id/new_game"
+        android:tint="@android:color/white"
+        android:icon="@drawable/ic_filter_action"
+        android:title="Sort"
+        app:showAsAction="ifRoom" />
+</menu>
