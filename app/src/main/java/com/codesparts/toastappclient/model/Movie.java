@@ -1,8 +1,5 @@
-package com.codesparts.toastappclient.Others;
+package com.codesparts.toastappclient.model;
 
-/**
- * Created by Lincoln on 15/01/16.
- */
 public class Movie {
     private String title, genre, year;
 

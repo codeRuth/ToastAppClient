@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.codesparts.toastappclient.Others.Movie;
+import com.codesparts.toastappclient.model.Movie;
 import com.thecodesparts.toastappclient.R;
 
 import java.util.List;

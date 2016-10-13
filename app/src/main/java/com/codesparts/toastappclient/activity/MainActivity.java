@@ -21,7 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.codesparts.toastappclient.fragment.HomeFragment;
+import com.codesparts.toastappclient.activity.auth.LoginActivity;
 import com.codesparts.toastappclient.fragment.ShopFragment;
 import com.codesparts.toastappclient.fragment.PantryFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity
 
         final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
         frameLayout.getBackground().setAlpha(0);
+
         final FloatingActionsMenu fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu);
         fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
@@ -88,35 +89,6 @@ public class MainActivity extends AppCompatActivity
                 frameLayout.setOnTouchListener(null);
             }
         });
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.setCurrentItem(1, false);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 1:
-                        fabMenu.setVisibility(View.VISIBLE);
-                        break;
-                    default:
-                        fabMenu.setVisibility(View.INVISIBLE);
-                        fabMenu.collapse();
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -126,14 +98,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HomeFragment(), "HOME");
-        adapter.addFragment(new PantryFragment(), "PANTRY");
-        adapter.addFragment(new ShopFragment(), "SHOP");
-        viewPager.setAdapter(adapter);
     }
 
     @Override
@@ -158,11 +122,10 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -182,39 +145,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        //progressBar.setVisibility(View.GONE);
     }
 
     @Override

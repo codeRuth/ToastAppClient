@@ -1,4 +1,4 @@
-package com.codesparts.toastappclient.activity;
+package com.codesparts.toastappclient.activity.auth;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,7 +25,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reset_password);
+        setContentView(R.layout.auth_reset_password);
 
         inputEmail = (EditText) findViewById(R.id.email);
         btnReset = (Button) findViewById(R.id.btn_reset_password);

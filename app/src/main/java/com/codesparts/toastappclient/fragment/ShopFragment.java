@@ -1,20 +1,13 @@
 package com.codesparts.toastappclient.fragment;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,7 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.codesparts.toastappclient.Others.DividerItemDecoration;
-import com.codesparts.toastappclient.Others.Movie;
+import com.codesparts.toastappclient.model.Movie;
 import com.thecodesparts.toastappclient.R;
 import com.codesparts.toastappclient.adapters.MoviesAdapter;
 

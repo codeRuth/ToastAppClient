@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.codesparts.toastappclient.activity.LoginActivity"
+            android:name="com.codesparts.toastappclient.activity.auth.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,11 +23,11 @@
         </activity>
 
         <activity
-            android:name="com.codesparts.toastappclient.activity.SignUpActivity"
+            android:name="com.codesparts.toastappclient.activity.auth.SignUpActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.codesparts.toastappclient.activity.ResetPasswordActivity"
+            android:name="com.codesparts.toastappclient.activity.auth.ResetPasswordActivity"
             android:label="@string/title_activity_reset_password"
             android:theme="@style/AppTheme.NoActionBar"/>
 
