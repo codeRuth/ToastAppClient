@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity
                 frameLayout.setOnTouchListener(null);
             }
         });
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -173,7 +172,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.sign_out) {
-            signOut();
+            FirebaseAuth.getInstance().signOut(); //End user session
+            startActivity(new Intent(MainActivity.this, LoginActivity.class)); //Go back to home page
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -208,10 +209,6 @@ public class MainActivity extends AppCompatActivity
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-    }
-
-    public void signOut() {
-        auth.signOut();
     }
 
     @Override

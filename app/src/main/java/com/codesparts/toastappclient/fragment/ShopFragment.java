@@ -1,11 +1,20 @@
 package com.codesparts.toastappclient.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.codesparts.toastappclient.Others.DividerItemDecoration;
@@ -29,6 +39,14 @@ public class ShopFragment extends Fragment{
     private List<Movie> movieList = new ArrayList<>();
     private RecyclerView recyclerView;
     private MoviesAdapter mAdapter;
+    //Extra Stuff
+    private AlertDialog.Builder alertDialog;
+    private EditText et_country;
+    private int edit_position;
+    private View view;
+    private boolean add = false;
+    private Paint p = new Paint();
+
 
     public ShopFragment() {
         // Required empty public constructor
@@ -40,10 +58,7 @@ public class ShopFragment extends Fragment{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //View homeView = inflater.inflate(R.layout.fragment_pantry, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_pantry, container, false);
 
@@ -56,7 +71,6 @@ public class ShopFragment extends Fragment{
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(this.getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext().getApplicationContext(), recyclerView, new PantryFragment.ClickListener() {
             @Override

@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.codesparts.toastappclient.activity.LoginActivity">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -20,6 +27,7 @@
         <ImageView
             android:layout_width="133dp"
             android:layout_height="101dp"
+            android:contentDescription="logo"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="30dp"
             android:src="@drawable/cheese" />
@@ -54,7 +62,8 @@
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_password"
                 android:inputType="textPassword"
-                android:allowUndo="false" />
+                android:allowUndo="false"
+                android:fontFamily="sans-serif" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Login Button -->
@@ -95,12 +104,4 @@
             android:textSize="15sp" />
 
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center|bottom"
-        android:layout_marginBottom="20dp"
-        android:visibility="gone" />
 </android.support.design.widget.CoordinatorLayout>

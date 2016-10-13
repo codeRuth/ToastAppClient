@@ -17,7 +17,7 @@ import java.util.List;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
 
     private List<Movie> moviesList;
-    ColorGenerator generator = ColorGenerator.MATERIAL;
+    private ColorGenerator generator = ColorGenerator.MATERIAL;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, year, genre;
@@ -59,5 +59,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     @Override
     public int getItemCount() {
         return moviesList.size();
+    }
+
+    public void addItem(Movie movie) {
+        moviesList.add(movie);
+        notifyItemInserted(moviesList.size());
+    }
+
+    public void removeItem(int position) {
+        moviesList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, moviesList.size());
     }
 }
