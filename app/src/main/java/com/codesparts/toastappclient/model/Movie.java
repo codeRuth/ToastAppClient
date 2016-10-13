@@ -2,6 +2,7 @@ package com.codesparts.toastappclient.model;
 
 public class Movie {
     private String title, genre, year;
+    public boolean isChecked;
 
     public Movie() {
     }
@@ -10,6 +11,10 @@ public class Movie {
         this.title = title;
         this.genre = genre;
         this.year = year;
+    }
+
+    public void setChecked(boolean isChecked) {
+        this.isChecked = isChecked;
     }
 
     public String getTitle() {

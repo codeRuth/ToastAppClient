@@ -4,11 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,8 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codesparts.toastappclient.Others.DividerItemDecoration;
@@ -35,7 +28,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.thecodesparts.toastappclient.R;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.ArrayList;
@@ -44,18 +36,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private FloatingActionButton fab;
-    private ProgressBar progressBar;
-    private TextView emailView;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
 
     private List<Movie> movieList = new ArrayList<>();
-    private RecyclerView recyclerView;
     private MoviesAdapter mAdapter;
-    private static final int HIGHLIGHT_COLOR = 0x999be6ff;
+
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,30 +65,7 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(recyclerView.getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new MoviesAdapter(movieList);
-        recyclerView.setAdapter(mAdapter);
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Movie movie = movieList.get(position);
-                Toast.makeText(getApplicationContext(), movie.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-            }
-        }));
-
-        prepareMovieData();
+        initViews();
 
         final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
         frameLayout.getBackground().setAlpha(0);
@@ -135,6 +99,33 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void initViews(){
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(recyclerView.getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new MoviesAdapter(movieList);
+        recyclerView.setAdapter(mAdapter);
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Movie movie = movieList.get(position);
+                Toast.makeText(getApplicationContext(), movie.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+            }
+        }));
+        prepareMovieData();
+        mAdapter.notifyDataSetChanged();
     }
 
     public interface ClickListener {
@@ -262,10 +253,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
