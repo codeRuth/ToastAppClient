@@ -1,6 +1,5 @@
 package com.codesparts.toastappclient.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
@@ -29,7 +27,6 @@ import com.codesparts.toastappclient.activity.auth.LoginActivity;
 import com.codesparts.toastappclient.adapters.MoviesAdapter;
 import com.codesparts.toastappclient.model.Movie;
 import com.codesparts.toastappclient.others.RecyclerItemClickListener;
-import com.codesparts.toastappclient.others.RecyclerTouchListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.thecodesparts.toastappclient.R;
@@ -141,9 +138,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(View view, int position) {
                 if (isMultiSelect)
-                    movieSelectedList.get(position);
+                    multiSelect(position);
                 else
-                    Toast.makeText(getApplicationContext(), movie.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), movieSelectedList.get(position) + " is selected!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -155,12 +152,18 @@ public class MainActivity extends AppCompatActivity
                         mActionMode = startActionMode(mActionModeCallback);
                     }
                 }
-                movieSelectedList.get(position);
+                multiSelect(position);
             }
         }));
 
         prepareMovieData();
         //mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_common_activity, menu);
+        return true;
     }
 
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
@@ -170,7 +173,7 @@ public class MainActivity extends AppCompatActivity
             // Inflate a menu resource providing context menu items
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_multi_select, menu);
-            context_menu = menu;
+            contextMenu = menu;
             return true;
         }
 
@@ -269,6 +272,21 @@ public class MainActivity extends AppCompatActivity
         mAdapter.notifyDataSetChanged();
     }
 
+    public void multiSelect(int position) {
+        if (mActionMode != null) {
+            if (movieSelectedList.contains(movieList.get(position)))
+                movieSelectedList.remove(movieList.get(position));
+            else
+                movieSelectedList.add(movieList.get(position));
+
+            if (movieSelectedList.size() > 0)
+                mActionMode.setTitle("" + movieSelectedList.size());
+            else
+                mActionMode.setTitle("");
+            refreshAdapter();
+        }
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -281,6 +299,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_settings:
+                Toast.makeText(getApplicationContext(), "Settings Click", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_exit:
+                onBackPressed();
+                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -333,11 +362,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPositiveClick(int from) {
         if(from == 1) {
-            if(multiselect_list.size() > 0) {
-                for(int i=0;i<multiselect_list.size();i++)
-                    user_list.remove(multiselect_list.get(i));
-                multiSelectAdapter.notifyDataSetChanged();
-
+            if(movieSelectedList.size() > 0) {
+                for(int i = 0; i < movieSelectedList.size(); i++)
+                    movieList.remove(movieSelectedList.get(i));
+                mAdapter.notifyDataSetChanged();
                 if (mActionMode != null) {
                     mActionMode.finish();
                 }
@@ -348,10 +376,9 @@ public class MainActivity extends AppCompatActivity
             if (mActionMode != null) {
                 mActionMode.finish();
             }
-            SampleModel mSample = new SampleModel("Name"+user_list.size(),"Designation"+user_list.size());
-            user_list.add(mSample);
-            multiSelectAdapter.notifyDataSetChanged();
-
+            Movie mSample = new Movie("Movie" + movieList.size(), "Category" + movieList.size(), "" + movieList.size());
+            movieList.add(mSample);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
