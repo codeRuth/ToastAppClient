@@ -59,7 +59,7 @@
                     android:id="@+id/fab_edit_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="addTodo"
+                    android:onClick="getViewButton"
                     fab:fab_colorNormal="@color/white"
                     fab:fab_colorPressed="@color/pressedColor"
                     fab:fab_icon="@drawable/ic_mode_edit"

@@ -7,7 +7,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ActionMode;
 import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,29 +23,39 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.codesparts.toastappclient.Others.DividerItemDecoration;
+import com.codesparts.toastappclient.others.AlertDialogHelper;
+import com.codesparts.toastappclient.others.DividerItemDecoration;
 import com.codesparts.toastappclient.activity.auth.LoginActivity;
 import com.codesparts.toastappclient.adapters.MoviesAdapter;
 import com.codesparts.toastappclient.model.Movie;
+import com.codesparts.toastappclient.others.RecyclerItemClickListener;
+import com.codesparts.toastappclient.others.RecyclerTouchListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.thecodesparts.toastappclient.R;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AlertDialogHelper.AlertDialogListener {
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
 
+    ActionMode mActionMode;
+    Menu contextMenu;
     private List<Movie> movieList = new ArrayList<>();
+    private List<Movie> movieSelectedList = new ArrayList<>();
     private MoviesAdapter mAdapter;
-
     private RecyclerView recyclerView;
+    private FloatingActionButton fab;
+    boolean isMultiSelect = false;
+
+    AlertDialogHelper alertDialogHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +104,15 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        fab = (FloatingActionButton) findViewById(R.id.fab_edit_add);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialogHelper.showAlertDialog("", "Do you want to add new contact", "LATER", "ADD", 2, false);
+
+            }
+        });
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -102,36 +124,85 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initViews(){
+        alertDialogHelper = new AlertDialogHelper(this);
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MoviesAdapter(movieList);
+        mAdapter = new MoviesAdapter(this, movieList, movieSelectedList);
         recyclerView.setAdapter(mAdapter);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onClick(View view, int position) {
-                Movie movie = movieList.get(position);
-                Toast.makeText(getApplicationContext(), movie.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+            public void onItemClick(View view, int position) {
+                if (isMultiSelect)
+                    movieSelectedList.get(position);
+                else
+                    Toast.makeText(getApplicationContext(), movie.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onLongClick(View view, int position) {
+            public void onItemLongClick(View view, int position) {
+                if (!isMultiSelect) {
+                    movieSelectedList = new ArrayList<>();
+                    isMultiSelect = true;
+                    if (mActionMode == null) {
+                        mActionMode = startActionMode(mActionModeCallback);
+                    }
+                }
+                movieSelectedList.get(position);
             }
         }));
+
         prepareMovieData();
-        mAdapter.notifyDataSetChanged();
+        //mAdapter.notifyDataSetChanged();
     }
 
-    public interface ClickListener {
-        void onClick(View view, int position);
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
-        void onLongClick(View view, int position);
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate a menu resource providing context menu items
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.menu_multi_select, menu);
+            context_menu = menu;
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false; // Return false if nothing is done
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.action_delete:
+                    alertDialogHelper.showAlertDialog("","Delete Contact","DELETE","CANCEL",1,false);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+            isMultiSelect = false;
+            movieSelectedList = new ArrayList<>();
+            refreshAdapter();
+        }
+    };
+
+    public void refreshAdapter() {
+        mAdapter.selectedMovieList = movieSelectedList;
+        mAdapter.moviesList = movieList;
+        mAdapter.notifyDataSetChanged();
     }
 
     private void prepareMovieData() {
@@ -198,49 +269,6 @@ public class MainActivity extends AppCompatActivity
         mAdapter.notifyDataSetChanged();
     }
 
-    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
-
-        private GestureDetector gestureDetector;
-        private ClickListener clickListener;
-
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
-            this.clickListener = clickListener;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                    if (child != null && clickListener != null) {
-                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
-                    }
-                }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            View child = rv.findChildViewUnder(e.getX(), e.getY());
-            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-                clickListener.onClick(child, rv.getChildPosition(child));
-            }
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -300,6 +328,38 @@ public class MainActivity extends AppCompatActivity
             auth.removeAuthStateListener(authListener);
         }
     }
+
+    //Dialog Callbacks Declaration
+    @Override
+    public void onPositiveClick(int from) {
+        if(from == 1) {
+            if(multiselect_list.size() > 0) {
+                for(int i=0;i<multiselect_list.size();i++)
+                    user_list.remove(multiselect_list.get(i));
+                multiSelectAdapter.notifyDataSetChanged();
+
+                if (mActionMode != null) {
+                    mActionMode.finish();
+                }
+                Toast.makeText(getApplicationContext(), "Delete Click", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if(from == 2) {
+            if (mActionMode != null) {
+                mActionMode.finish();
+            }
+            SampleModel mSample = new SampleModel("Name"+user_list.size(),"Designation"+user_list.size());
+            user_list.add(mSample);
+            multiSelectAdapter.notifyDataSetChanged();
+
+        }
+    }
+
+    @Override
+    public void onNegativeClick(int from) {}
+
+    @Override
+    public void onNeutralClick(int from) {}
 
 }
 

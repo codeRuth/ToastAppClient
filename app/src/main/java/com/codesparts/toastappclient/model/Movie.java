@@ -2,7 +2,7 @@ package com.codesparts.toastappclient.model;
 
 public class Movie {
     private String title, genre, year;
-    public boolean isChecked;
+    private boolean isChecked;
 
     public Movie() {
     }

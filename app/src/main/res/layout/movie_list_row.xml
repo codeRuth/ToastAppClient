@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/movieListItem"
     android:focusable="true"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
@@ -11,12 +12,28 @@
     android:gravity="center"
     android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal">
-
     <ImageView
-        android:id="@+id/gmailitem_letter"
+        android:id="@+id/imageView"
         android:layout_width="50dp"
         android:gravity="center"
         android:layout_height="50dp" />
+    <!--<FrameLayout-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_width="60dp"-->
+        <!--android:layout_height="60dp">-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:id="@+id/imageView"/>-->
+
+        <!--<ImageView-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:src="@drawable/ic_done"-->
+            <!--android:id="@+id/checkIcon"/>-->
+    <!--</FrameLayout>-->
     <RelativeLayout
         android:layout_marginLeft="16dp"
         android:layout_weight="5"

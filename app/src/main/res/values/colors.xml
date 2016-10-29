@@ -7,6 +7,9 @@
     <color name="colorAccent">#F05D4A</color>
     <color name="tab_indicator">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
+
+    <color name="selected_item">#FEF0F0</color>
+
     <color name="secondary_text">#706f6c</color>
     <color name="pressedColor">#e7e7e7</color>
     <color name="year">#999999</color>

@@ -1,10 +1,13 @@
 package com.codesparts.toastappclient.adapters;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -12,29 +15,34 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.codesparts.toastappclient.model.Movie;
 import com.thecodesparts.toastappclient.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
 
-    private List<Movie> moviesList;
+    public List<Movie> moviesList;
+    public List<Movie> selectedMovieList;
+    Context mContext;
     private ColorGenerator generator = ColorGenerator.MATERIAL;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, year, genre;
+        public  TextView title, year, genre;
         ImageView letter;
-
+        public LinearLayout movieListItem;
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
             genre = (TextView) view.findViewById(R.id.genre);
             year = (TextView) view.findViewById(R.id.year);
-            letter = (ImageView) view.findViewById(R.id.gmailitem_letter);
+            letter = (ImageView) view.findViewById(R.id.imageView);
+            movieListItem = (LinearLayout)view.findViewById(R.id.movieListItem);
         }
     }
 
-
-    public MoviesAdapter(List<Movie> moviesList) {
+    public MoviesAdapter(Context context, List<Movie> moviesList, List<Movie> selectedList) {
+        this.mContext = context;
         this.moviesList = moviesList;
+        this.selectedMovieList = selectedList;
     }
 
     @Override
@@ -54,21 +62,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         holder.title.setText(movie.getTitle());
         holder.genre.setText(movie.getGenre());
         holder.year.setText(movie.getYear());
+
+        if(selectedMovieList.contains(moviesList.get(position)))
+            holder.movieListItem.setBackgroundColor(ContextCompat.getColor(mContext, R.color.selected_item));
+        else
+            holder.movieListItem.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
     }
 
     @Override
     public int getItemCount() {
         return moviesList.size();
-    }
-
-    public void addItem(Movie movie) {
-        moviesList.add(movie);
-        notifyItemInserted(moviesList.size());
-    }
-
-    public void removeItem(int position) {
-        moviesList.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, moviesList.size());
     }
 }

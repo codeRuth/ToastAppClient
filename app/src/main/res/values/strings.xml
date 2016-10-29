@@ -5,9 +5,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="home">HOME</string>
-    <string name="inventory">PANTRY</string>
-    <string name="shop">SHOP</string>
     <string name="user">ToastApp</string>
 
     <string name="action_sign_in_short">Register</string>
@@ -38,5 +35,10 @@
     <string name="btn_sign_out">Sign Out</string>
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
+
+    <string name="menu_item_exit">Exit</string>
+    <string name="menu_item_settings">Settings</string>
+    <string name="menu_item_edit">Edit</string>
+    <string name="menu_item_delete">Delete</string>
 
 </resources>

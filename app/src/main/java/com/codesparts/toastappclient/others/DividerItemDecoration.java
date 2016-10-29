@@ -1,4 +1,4 @@
-package com.codesparts.toastappclient.Others;
+package com.codesparts.toastappclient.others;
 
 import android.content.Context;
 import android.content.res.TypedArray;
