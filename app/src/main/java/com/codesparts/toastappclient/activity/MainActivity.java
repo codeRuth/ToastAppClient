@@ -21,6 +21,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     boolean isMultiSelect = false;
+    private FloatingActionsMenu fabMenu;
     Vibrator vibe;
     AlertDialogHelper alertDialogHelper;
 
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
         frameLayout.getBackground().setAlpha(0);
 
-        final FloatingActionsMenu fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu);
+        fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu);
         fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
             public void onMenuExpanded() {
@@ -152,7 +155,6 @@ public class MainActivity extends AppCompatActivity
                     isMultiSelect = true;
                     if (mActionMode == null) {
                         vibe.vibrate(50);
-
                         mActionMode = startSupportActionMode(mActionModeCallback);
                     }
                 }
@@ -177,7 +179,9 @@ public class MainActivity extends AppCompatActivity
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_multi_select, menu);
             contextMenu = menu;
-            getWindow().setStatusBarColor(Color.parseColor("#F05D4A"));
+            getWindow().setStatusBarColor(Color.parseColor("#CC4F3F"));
+            fabMenu.animate().translationY(fabMenu.getHeight() + 16).setInterpolator(new AccelerateInterpolator(2)).start();
+            fabMenu.setVisibility(View.INVISIBLE);
             return true;
         }
 
@@ -186,6 +190,8 @@ public class MainActivity extends AppCompatActivity
             mActionMode = null;
             isMultiSelect = false;
             ingredientSelectedList = new ArrayList<>();
+            fabMenu.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+            fabMenu.setVisibility(View.VISIBLE);
             refreshAdapter();
         }
 
@@ -235,8 +241,6 @@ public class MainActivity extends AppCompatActivity
         ingredient = new Ingredient("Channa Dal", "Pulses", "0.5 Kgs.");
         ingredientList.add(ingredient);
 
-
-
         mAdapter.notifyDataSetChanged();
     }
 
@@ -248,7 +252,7 @@ public class MainActivity extends AppCompatActivity
                 ingredientSelectedList.add(ingredientList.get(position));
 
             if (ingredientSelectedList.size() > 0)
-                mActionMode.setTitle("" + ingredientSelectedList.size());
+                mActionMode.setTitle( ingredientSelectedList.size() + " Selected ");
             else
                 mActionMode.setTitle("");
             refreshAdapter();
