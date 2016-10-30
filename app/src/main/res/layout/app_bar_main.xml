@@ -70,7 +70,8 @@
                 fab:fab_addButtonPlusIconColor="@color/white"
                 fab:fab_addButtonStrokeVisible="false"
                 fab:fab_labelStyle="@style/menu_labels_style"
-                fab:fab_labelsPosition="left">
+                fab:fab_labelsPosition="left"
+                fab:fab_title="Cancel">
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab_shop"

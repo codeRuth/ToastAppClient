@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -30,12 +32,14 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
 
-            <EditText
+            <com.codesparts.toastappclient.custom.CustomFontEditText
                 android:id="@+id/email"
+                android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_email"
+                app:font="@string/font_name"
                 android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
@@ -45,24 +49,27 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
 
-            <EditText
+            <com.codesparts.toastappclient.custom.CustomFontEditText
                 android:id="@+id/password"
+                android:textSize="20sp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_password"
+                app:font="@string/font_name"
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Login Button -->
 
-        <Button
+        <com.codesparts.toastappclient.custom.CustomFontButton
             android:id="@+id/btn_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@color/colorAccent"
             android:text="@string/btn_login"
+            app:font="@string/font_name"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:paddingBottom="15dp"
@@ -70,26 +77,29 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 
-        <Button
+        <com.codesparts.toastappclient.custom.CustomFontButton
             android:id="@+id/btn_reset_password"
             android:layout_width="fill_parent"
             android:layout_height="21dp"
-            android:layout_marginTop="20dip"
+            android:layout_marginTop="20dp"
+            app:font="@string/font_name"
             android:background="@null"
+            android:textSize="18sp"
             android:text="@string/btn_forgot_password"
             android:textAllCaps="false"
             android:textColor="@color/colorAccent" />
 
-        <Button
+        <com.codesparts.toastappclient.custom.CustomFontButton
             android:id="@+id/btn_signup"
             android:layout_width="fill_parent"
             android:layout_height="30dp"
+            app:font="@string/font_name"
             android:layout_marginTop="20dip"
             android:background="@null"
+            android:textSize="18sp"
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"
-            android:textColor="@android:color/black"
-            android:textSize="15sp" />
+            android:textColor="@android:color/black" />
 
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

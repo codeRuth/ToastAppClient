@@ -56,41 +56,40 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            String email = inputEmail.getText().toString().trim();
+            String password = inputPassword.getText().toString().trim();
 
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
+            if (TextUtils.isEmpty(email)) {
+                Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            if (TextUtils.isEmpty(password)) {
+                Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            if (password.length() < 6) {
+                Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                if (password.length() < 6) {
-                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                progressBar.setVisibility(View.VISIBLE);
-                auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Toast.makeText(SignUpActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                            if (!task.isSuccessful()) {
-                                Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
-                                        Toast.LENGTH_SHORT).show();
-                            } else {
-                                startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-                                finish();
-                            }
-                        }
-                    });
+            progressBar.setVisibility(View.VISIBLE);
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    Toast.makeText(SignUpActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    if (!task.isSuccessful()) {
+                        Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                        finish();
+                    }
+                    }
+                });
             }
         });
     }
