@@ -2,11 +2,10 @@ package com.codesparts.toastappclient.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +25,6 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.codesparts.toastappclient.others.AlertDialogHelper;
-import com.codesparts.toastappclient.others.DividerItemDecoration;
 import com.codesparts.toastappclient.activity.auth.LoginActivity;
 import com.codesparts.toastappclient.adapters.MoviesAdapter;
 import com.codesparts.toastappclient.model.Movie;
@@ -122,6 +120,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.viewPageAndroid);
+        AndroidImageAdapter adapterView = new AndroidImageAdapter(this);
+        mViewPager.setAdapter(adapterView);
     }
 
     private void initViews(){
@@ -217,6 +219,9 @@ public class MainActivity extends AppCompatActivity
         movieList.add(movie);
 
         movie = new Movie("Lucia", "Suspense & Thriller", "2013");
+        movieList.add(movie);
+
+        movie = new Movie("Banana", "Fruits & Vegetables", "2.5kg");
         movieList.add(movie);
 
         movie = new Movie("Truman Show", "Comedy & Drama", "1998");

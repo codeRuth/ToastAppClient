@@ -42,5 +42,5 @@
     <string name="menu_item_delete">Delete</string>
 
     <string name="font_name_fontawesome">fontawesome</string>
-    <string name="font_name_source_sans_pro">AvenirLTStd</string>
+    <string name="font_name">AvenirLTStd</string>
 </resources>
