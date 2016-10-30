@@ -2,10 +2,10 @@ package com.codesparts.toastappclient.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,10 +24,10 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.codesparts.toastappclient.model.Ingredient;
 import com.codesparts.toastappclient.others.AlertDialogHelper;
 import com.codesparts.toastappclient.activity.auth.LoginActivity;
 import com.codesparts.toastappclient.adapters.MoviesAdapter;
-import com.codesparts.toastappclient.model.Movie;
 import com.codesparts.toastappclient.others.RecyclerItemClickListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity
 
     ActionMode mActionMode;
     Menu contextMenu;
-    private List<Movie> movieList = new ArrayList<>();
-    private List<Movie> movieSelectedList = new ArrayList<>();
+    private List<Ingredient> ingredientList = new ArrayList<>();
+    private List<Ingredient> ingredientSelectedList = new ArrayList<>();
     private MoviesAdapter mAdapter;
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MoviesAdapter(this, movieList, movieSelectedList);
+        mAdapter = new MoviesAdapter(this, ingredientList, ingredientSelectedList);
         recyclerView.setAdapter(mAdapter);
 
         recyclerView.setHasFixedSize(true);
@@ -142,13 +142,13 @@ public class MainActivity extends AppCompatActivity
                 if (isMultiSelect)
                     multiSelect(position);
                 else
-                    Toast.makeText(getApplicationContext(), movieSelectedList.get(position) + " is selected!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), ingredientSelectedList.get(position) + " is selected!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onItemLongClick(View view, int position) {
                 if (!isMultiSelect) {
-                    movieSelectedList = new ArrayList<>();
+                    ingredientSelectedList = new ArrayList<>();
                     isMultiSelect = true;
                     if (mActionMode == null) {
                         vibe.vibrate(50);
@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_multi_select, menu);
             contextMenu = menu;
+            getWindow().setStatusBarColor(Color.parseColor("#F05D4A"));
             return true;
         }
 
@@ -184,13 +185,14 @@ public class MainActivity extends AppCompatActivity
         public void onDestroyActionMode(ActionMode mode) {
             mActionMode = null;
             isMultiSelect = false;
-            movieSelectedList = new ArrayList<>();
+            ingredientSelectedList = new ArrayList<>();
             refreshAdapter();
         }
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false; // Return false if nothing is done
+            return false;
+
         }
 
         @Override
@@ -206,87 +208,47 @@ public class MainActivity extends AppCompatActivity
     };
 
     public void refreshAdapter() {
-        mAdapter.selectedMovieList = movieSelectedList;
-        mAdapter.moviesList = movieList;
+        mAdapter.selectedIngredientList = ingredientSelectedList;
+        mAdapter.moviesList = ingredientList;
         mAdapter.notifyDataSetChanged();
     }
 
     private void prepareMovieData() {
-        Movie movie = new Movie("Mad Max: Fury Road", "Action & Adventure", "2015");
-        movieList.add(movie);
+        Ingredient ingredient = new Ingredient("Bananas", "Fruits & Vegetables", "2.5 Kg.");
+        ingredientList.add(ingredient);
 
-        movie = new Movie("Lucia", "Suspense & Thriller", "2013");
-        movieList.add(movie);
+        ingredient = new Ingredient("Chicken Wings", "Meat Products", "3.25 Kg.");
+        ingredientList.add(ingredient);
 
-        movie = new Movie("Banana", "Fruits & Vegetables", "2.5kg");
-        movieList.add(movie);
+        ingredient = new Ingredient("Apple Juice", "Fluids", "1.5 Ltr.");
+        ingredientList.add(ingredient);
 
-        movie = new Movie("Truman Show", "Comedy & Drama", "1998");
-        movieList.add(movie);
+        ingredient = new Ingredient("Onions", "Fruits & Vegetables", "3.25 Kgs.");
+        ingredientList.add(ingredient);
 
-        movie = new Movie("The Avengers", "Action", "2012");
-        movieList.add(movie);
+        ingredient = new Ingredient("Apple", "Fruits & Vegetables", "3.25 Kgs.");
+        ingredientList.add(ingredient);
 
-        movie = new Movie("Pink Floyd : Live in Pompeii", "Musical", "1972");
-        movieList.add(movie);
+        ingredient = new Ingredient("Milk", "Dairy", "1 Ltr.");
+        ingredientList.add(ingredient);
 
-        movie = new Movie("Inside Out", "Animation, Kids & Family", "2015");
-        movieList.add(movie);
+        ingredient = new Ingredient("Channa Dal", "Pulses", "0.5 Kgs.");
+        ingredientList.add(ingredient);
 
-        movie = new Movie("Star Wars: Episode VII - The Force Awakens", "Action", "2015");
-        movieList.add(movie);
 
-        movie = new Movie("Shaun the Sheep", "Animation", "2015");
-        movieList.add(movie);
-
-        movie = new Movie("The Martian", "Science Fiction & Fantasy", "2015");
-        movieList.add(movie);
-
-        movie = new Movie("Mission: Impossible Rogue Nation", "Action", "2015");
-        movieList.add(movie);
-
-        movie = new Movie("Up", "Animation", "2009");
-        movieList.add(movie);
-
-        movie = new Movie("Star Trek", "Science Fiction", "2009");
-        movieList.add(movie);
-
-        movie = new Movie("The LEGO Movie", "Animation", "2014");
-        movieList.add(movie);
-
-        movie = new Movie("Iron Man", "Action & Adventure", "2008");
-        movieList.add(movie);
-
-        movie = new Movie("Aliens", "Science Fiction", "1986");
-        movieList.add(movie);
-
-        movie = new Movie("Chicken Run", "Animation", "2000");
-        movieList.add(movie);
-
-        movie = new Movie("Back to the Future", "Science Fiction", "1985");
-        movieList.add(movie);
-
-        movie = new Movie("Raiders of the Lost Ark", "Action & Adventure", "1981");
-        movieList.add(movie);
-
-        movie = new Movie("Goldfinger", "Action & Adventure", "1965");
-        movieList.add(movie);
-
-        movie = new Movie("Guardians of the Galaxy", "Science Fiction & Fantasy", "2014");
-        movieList.add(movie);
 
         mAdapter.notifyDataSetChanged();
     }
 
     public void multiSelect(int position) {
         if (mActionMode != null) {
-            if (movieSelectedList.contains(movieList.get(position)))
-                movieSelectedList.remove(movieList.get(position));
+            if (ingredientSelectedList.contains(ingredientList.get(position)))
+                ingredientSelectedList.remove(ingredientList.get(position));
             else
-                movieSelectedList.add(movieList.get(position));
+                ingredientSelectedList.add(ingredientList.get(position));
 
-            if (movieSelectedList.size() > 0)
-                mActionMode.setTitle("" + movieSelectedList.size());
+            if (ingredientSelectedList.size() > 0)
+                mActionMode.setTitle("" + ingredientSelectedList.size());
             else
                 mActionMode.setTitle("");
             refreshAdapter();
@@ -313,8 +275,9 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Settings Click", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_filter:
-                onBackPressed();
-                return true;
+                FirebaseAuth.getInstance().signOut(); //End user session
+                startActivity(new Intent(MainActivity.this, LoginActivity.class)); //Go back to home page
+                finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -335,9 +298,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.sign_out) {
-            FirebaseAuth.getInstance().signOut(); //End user session
-            startActivity(new Intent(MainActivity.this, LoginActivity.class)); //Go back to home page
-            finish();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -368,9 +329,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPositiveClick(int from) {
         if(from == 1) {
-            if(movieSelectedList.size() > 0) {
-                for(int i = 0; i < movieSelectedList.size(); i++)
-                    movieList.remove(movieSelectedList.get(i));
+            if(ingredientSelectedList.size() > 0) {
+                for(Ingredient i : ingredientSelectedList)
+                    ingredientList.remove(i);
                 mAdapter.notifyDataSetChanged();
                 if (mActionMode != null) {
                     mActionMode.finish();
@@ -382,8 +343,8 @@ public class MainActivity extends AppCompatActivity
             if (mActionMode != null) {
                 mActionMode.finish();
             }
-            Movie mSample = new Movie("Movie" + movieList.size(), "Category" + movieList.size(), "" + movieList.size());
-            movieList.add(mSample);
+            Ingredient mSample = new Ingredient("Ingredient" + ingredientList.size(), "Category" + ingredientList.size(), "" + ingredientList.size());
+            ingredientList.add(mSample);
             mAdapter.notifyDataSetChanged();
         }
     }

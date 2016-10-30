@@ -32,7 +32,7 @@
     </FrameLayout>
 
     <RelativeLayout
-        android:layout_marginLeft="18dp"
+        android:layout_marginLeft="20dp"
         android:layout_weight="5"
         android:layout_width="0dp"
         android:gravity="center"
@@ -40,15 +40,15 @@
         <com.codesparts.toastappclient.custom.CustomFontTextView
             android:id="@+id/title"
             android:textColor="@color/title"
-            android:textSize="19sp"
+            android:textSize="20sp"
             app:font="@string/font_name"
             android:gravity="start|top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <com.codesparts.toastappclient.custom.CustomFontTextView
-            android:id="@+id/genre"
-            android:textSize="16sp"
+            android:id="@+id/category"
+            android:textSize="15sp"
             android:layout_below="@id/title"
             app:font="@string/font_name"
             android:layout_width="match_parent"
@@ -56,13 +56,13 @@
             android:layout_height="wrap_content" />
 
         <com.codesparts.toastappclient.custom.CustomFontTextView
-            android:id="@+id/year"
-            android:textColor="@color/year"
+            android:id="@+id/quantity"
+            android:textColor="@color/quantity"
             app:font="@string/font_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="3dp"/>
+            android:layout_marginTop="5dp"/>
 
     </RelativeLayout>
 

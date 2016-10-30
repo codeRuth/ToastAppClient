@@ -12,7 +12,7 @@
 
     <color name="secondary_text">#706f6c</color>
     <color name="pressedColor">#e7e7e7</color>
-    <color name="year">#999999</color>
+    <color name="quantity">#999999</color>
     <color name="title">#222222</color>
 
     <color name="accent_dark">#ff2929</color>
