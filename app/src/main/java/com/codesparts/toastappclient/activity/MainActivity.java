@@ -121,9 +121,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ViewPager mViewPager = (ViewPager) findViewById(R.id.viewPageAndroid);
-        AndroidImageAdapter adapterView = new AndroidImageAdapter(this);
-        mViewPager.setAdapter(adapterView);
+//        ViewPager mViewPager = (ViewPager) findViewById(R.id.viewPageAndroid);
+//        AndroidImageAdapter adapterView = new AndroidImageAdapter(this);
+//        mViewPager.setAdapter(adapterView);
     }
 
     private void initViews(){
@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity
                     isMultiSelect = true;
                     if (mActionMode == null) {
                         vibe.vibrate(50);
+
                         mActionMode = startSupportActionMode(mActionModeCallback);
                     }
                 }
