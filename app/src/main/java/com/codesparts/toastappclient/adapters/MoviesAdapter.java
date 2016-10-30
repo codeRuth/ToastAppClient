@@ -1,6 +1,7 @@
 package com.codesparts.toastappclient.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +16,6 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.codesparts.toastappclient.model.Movie;
 import com.thecodesparts.toastappclient.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
@@ -27,7 +27,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public  TextView title, year, genre;
-        ImageView letter;
+        ImageView letter, check;
         public LinearLayout movieListItem;
         public MyViewHolder(View view) {
             super(view);
@@ -35,6 +35,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             genre = (TextView) view.findViewById(R.id.genre);
             year = (TextView) view.findViewById(R.id.year);
             letter = (ImageView) view.findViewById(R.id.imageView);
+            check = (ImageView) view.findViewById(R.id.checkIcon);
             movieListItem = (LinearLayout)view.findViewById(R.id.movieListItem);
         }
     }
@@ -57,16 +58,22 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Movie movie = moviesList.get(position);
         String letter = String.valueOf(movie.getTitle().charAt(0));
-        TextDrawable drawable = TextDrawable.builder().buildRound(letter, generator.getColor(movie.getTitle()));
-        holder.letter.setImageDrawable(drawable);
         holder.title.setText(movie.getTitle());
         holder.genre.setText(movie.getGenre());
         holder.year.setText(movie.getYear());
 
-        if(selectedMovieList.contains(moviesList.get(position)))
+        if(selectedMovieList.contains(moviesList.get(position))) {
+            TextDrawable drawable = TextDrawable.builder().buildRound(" ", 0xff616161);
+            holder.letter.setImageDrawable(drawable);
+            holder.check.setVisibility(View.VISIBLE);
             holder.movieListItem.setBackgroundColor(ContextCompat.getColor(mContext, R.color.selected_item));
-        else
-            holder.movieListItem.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
+        }
+        else {
+            TextDrawable drawable = TextDrawable.builder().buildRound(letter, generator.getColor(movie.getTitle()));
+            holder.letter.setImageDrawable(drawable);
+            holder.check.setVisibility(View.GONE);
+            holder.movieListItem.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 
     @Override

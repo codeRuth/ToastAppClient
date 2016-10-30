@@ -1,12 +1,16 @@
 package com.codesparts.toastappclient.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ActionMode;
+import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     boolean isMultiSelect = false;
-
+    Vibrator vibe;
     AlertDialogHelper alertDialogHelper;
 
     @Override
@@ -74,7 +78,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         };
-
+        vibe = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE) ;
         initViews();
 
         final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
@@ -131,7 +135,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(mAdapter);
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
@@ -149,7 +153,8 @@ public class MainActivity extends AppCompatActivity
                     movieSelectedList = new ArrayList<>();
                     isMultiSelect = true;
                     if (mActionMode == null) {
-                        mActionMode = startActionMode(mActionModeCallback);
+                        vibe.vibrate(50);
+                        mActionMode = startSupportActionMode(mActionModeCallback);
                     }
                 }
                 multiSelect(position);
@@ -157,7 +162,7 @@ public class MainActivity extends AppCompatActivity
         }));
 
         prepareMovieData();
-        //mAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -170,11 +175,18 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            // Inflate a menu resource providing context menu items
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_multi_select, menu);
             contextMenu = menu;
             return true;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+            isMultiSelect = false;
+            movieSelectedList = new ArrayList<>();
+            refreshAdapter();
         }
 
         @Override
@@ -191,14 +203,6 @@ public class MainActivity extends AppCompatActivity
                 default:
                     return false;
             }
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mActionMode = null;
-            isMultiSelect = false;
-            movieSelectedList = new ArrayList<>();
-            refreshAdapter();
         }
     };
 
@@ -303,10 +307,10 @@ public class MainActivity extends AppCompatActivity
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case R.id.action_settings:
+            case R.id.action_search:
                 Toast.makeText(getApplicationContext(), "Settings Click", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.action_exit:
+            case R.id.action_filter:
                 onBackPressed();
                 return true;
         }

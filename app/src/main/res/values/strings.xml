@@ -25,7 +25,7 @@
     <string name="btn_link_to_register">Not a member? Register Now!</string>
     <string name="btn_link_to_login">Already registered? Login.</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
-    <string name="btn_forgot_password">Forgot your password?</string>
+    <string name="btn_forgot_password">Forgot Password?</string>
     <string name="btn_reset_password">Reset Password</string>
     <string name="btn_back"><![CDATA[<< Back]]></string>
     <string name="hint_new_email">New Email</string>
@@ -41,4 +41,6 @@
     <string name="menu_item_edit">Edit</string>
     <string name="menu_item_delete">Delete</string>
 
+    <string name="font_name_fontawesome">fontawesome</string>
+    <string name="font_name_source_sans_pro">AvenirLTStd</string>
 </resources>

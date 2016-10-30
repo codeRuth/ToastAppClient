@@ -17,5 +17,14 @@
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:scrollbars="vertical" />
+
+    <TextView
+        android:text="Hello Tjis is a Tezt view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/recycler_view"
+        android:id="@+id/itemCount" />
 </RelativeLayout>
 

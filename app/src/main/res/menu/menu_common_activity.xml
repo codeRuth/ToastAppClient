@@ -2,12 +2,12 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/action_settings"
-        android:icon="@android:drawable/ic_menu_preferences"
+    <item android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_action"
         android:title="@string/menu_item_settings"
         app:showAsAction="always"/>
-    <item android:id="@+id/action_exit"
-        android:icon="@android:drawable/ic_menu_revert"
+    <item android:id="@+id/action_filter"
+        android:icon="@drawable/ic_filter_action"
         android:title="@string/menu_item_exit"
         app:showAsAction="always"/>
 </menu>

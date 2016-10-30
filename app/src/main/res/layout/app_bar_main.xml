@@ -30,7 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white">
-
             <com.getbase.floatingactionbutton.FloatingActionsMenu
                 android:id="@+id/fab_menu"
                 android:layout_width="374dp"
@@ -79,7 +78,6 @@
                     fab:paddingStart="30dp" />
 
             </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
         </FrameLayout>
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

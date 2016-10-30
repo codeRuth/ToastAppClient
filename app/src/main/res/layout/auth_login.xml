@@ -36,9 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_email"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/colorPrimary"
-                android:textColorHint="@android:color/darker_gray" />
+                android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -53,9 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_password"
-                android:inputType="textPassword"
-                android:allowUndo="false"
-                android:fontFamily="sans-serif" />
+                android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Login Button -->
@@ -77,7 +73,7 @@
         <Button
             android:id="@+id/btn_reset_password"
             android:layout_width="fill_parent"
-            android:layout_height="29dp"
+            android:layout_height="21dp"
             android:layout_marginTop="20dip"
             android:background="@null"
             android:text="@string/btn_forgot_password"
@@ -87,7 +83,7 @@
         <Button
             android:id="@+id/btn_signup"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="20dip"
             android:background="@null"
             android:text="@string/btn_link_to_register"
