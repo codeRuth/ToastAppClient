@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:baselineAligned="false"
     android:id="@+id/movieListItem"
     android:focusable="true"
     android:paddingLeft="15dp"
@@ -21,7 +21,6 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/imageView"/>
-
         <ImageView
             android:visibility="gone"
             android:padding="15dp"
@@ -32,37 +31,35 @@
     </FrameLayout>
 
     <RelativeLayout
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_weight="5"
         android:layout_width="0dp"
         android:gravity="center"
         android:layout_height="?android:attr/listPreferredItemHeight">
-        <com.codesparts.toastappclient.custom.CustomFontTextView
+        <TextView
             android:id="@+id/title"
             android:textColor="@color/title"
             android:textSize="20sp"
-            app:font="@string/font_name"
             android:gravity="start|top"
+            android:textStyle="normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.codesparts.toastappclient.custom.CustomFontTextView
+        <TextView
             android:id="@+id/category"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:layout_below="@id/title"
-            app:font="@string/font_name"
             android:layout_width="match_parent"
             android:gravity="start|center"
             android:layout_height="wrap_content" />
 
-        <com.codesparts.toastappclient.custom.CustomFontTextView
-            android:id="@+id/quantity"
+        <TextView
+            android:id="@+id/quantityItem"
             android:textColor="@color/quantity"
-            app:font="@string/font_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="10dp"/>
 
     </RelativeLayout>
 

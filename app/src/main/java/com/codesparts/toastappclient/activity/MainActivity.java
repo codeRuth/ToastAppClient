@@ -2,10 +2,14 @@ package com.codesparts.toastappclient.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,16 +24,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.graphics.Palette;
 import android.view.MenuItem;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.codesparts.toastappclient.model.Ingredient;
 import com.codesparts.toastappclient.others.AlertDialogHelper;
 import com.codesparts.toastappclient.activity.auth.LoginActivity;
-import com.codesparts.toastappclient.adapters.MoviesAdapter;
+import com.codesparts.toastappclient.adapters.IngredientsAdapter;
 import com.codesparts.toastappclient.others.RecyclerItemClickListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,12 +57,14 @@ public class MainActivity extends AppCompatActivity
     Menu contextMenu;
     private List<Ingredient> ingredientList = new ArrayList<>();
     private List<Ingredient> ingredientSelectedList = new ArrayList<>();
-    private MoviesAdapter mAdapter;
+    private IngredientsAdapter mAdapter;
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     boolean isMultiSelect = false;
     private FloatingActionsMenu fabMenu;
-    Vibrator vibe;
+    private Animation fab_open, fab_close;
+    private Vibrator vibe;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
     AlertDialogHelper alertDialogHelper;
 
     @Override
@@ -64,8 +72,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         auth = FirebaseAuth.getInstance();
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -106,7 +115,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        fab = (FloatingActionButton) findViewById(R.id.fab_edit_add);
+        fab = (FloatingActionButton) findViewById(R.id.fabRecipe);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,6 +123,9 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -132,7 +144,7 @@ public class MainActivity extends AppCompatActivity
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MoviesAdapter(this, ingredientList, ingredientSelectedList);
+        mAdapter = new IngredientsAdapter(this, ingredientList, ingredientSelectedList);
         recyclerView.setAdapter(mAdapter);
 
         recyclerView.setHasFixedSize(true);
@@ -179,9 +191,13 @@ public class MainActivity extends AppCompatActivity
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_multi_select, menu);
             contextMenu = menu;
-            getWindow().setStatusBarColor(Color.parseColor("#CC4F3F"));
-            fabMenu.animate().translationY(fabMenu.getHeight() + 16).setInterpolator(new AccelerateInterpolator(2)).start();
+            getWindow().setStatusBarColor(Color.parseColor("#ff434343"));
+//            fabMenu.animate().translationY(fabMenu.getHeight() + 16).setInterpolator(new AccelerateInterpolator(2)).start();
+            fabMenu.startAnimation(fab_close);
             fabMenu.setVisibility(View.INVISIBLE);
+            getSupportActionBar().hide();
+            fab.startAnimation(fab_open);
+            fab.setVisibility(View.VISIBLE);
             return true;
         }
 
@@ -190,8 +206,12 @@ public class MainActivity extends AppCompatActivity
             mActionMode = null;
             isMultiSelect = false;
             ingredientSelectedList = new ArrayList<>();
-            fabMenu.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+            fabMenu.startAnimation(fab_open);
             fabMenu.setVisibility(View.VISIBLE);
+            getSupportActionBar().show();
+            getWindow().setStatusBarColor(Color.parseColor("#ffcc4f3f"));
+            fab.startAnimation(fab_close);
+            fab.setVisibility(View.INVISIBLE);
             refreshAdapter();
         }
 
@@ -239,6 +259,15 @@ public class MainActivity extends AppCompatActivity
         ingredientList.add(ingredient);
 
         ingredient = new Ingredient("Channa Dal", "Pulses", "0.5 Kgs.");
+        ingredientList.add(ingredient);
+
+        ingredient = new Ingredient("Urad Dal", "Pulses", "0.5 Kgs.");
+        ingredientList.add(ingredient);
+
+        ingredient = new Ingredient("Black Gram", "Pulses", "0.5 Kgs.");
+        ingredientList.add(ingredient);
+
+        ingredient = new Ingredient("Coriander", "Fruits & Vegetables", "0.5 Kgs.");
         ingredientList.add(ingredient);
 
         mAdapter.notifyDataSetChanged();

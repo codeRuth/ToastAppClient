@@ -35,6 +35,10 @@
     <color name="btn_logut_bg">#ff6861</color>
 
     <color name="actionModeColor">#ff616161</color>
-    <color name="actionModeColorDark">#434343</color>
+    <color name="actionModeColorDark">#ff434343</color>
+
+    <color name="imageOverlay">#81000000</color>
+
+    <color name="actionModeColorT">#00000000</color>
 
 </resources>

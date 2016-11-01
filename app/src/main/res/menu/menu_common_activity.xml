@@ -10,4 +10,8 @@
         android:icon="@drawable/ic_filter_action"
         android:title="@string/menu_item_exit"
         app:showAsAction="always"/>
+    <item android:id="@+id/action_shop"
+        android:icon="@drawable/ic_shopping_basket_white"
+        android:title="@string/menu_item_exit"
+        app:showAsAction="always"/>
 </menu>

@@ -18,11 +18,11 @@ import com.thecodesparts.toastappclient.R;
 
 import java.util.List;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
+public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.MyViewHolder> {
 
     public List<Ingredient> moviesList;
     public List<Ingredient> selectedIngredientList;
-    Context mContext;
+    private Context mContext;
     private ColorGenerator generator = ColorGenerator.MATERIAL;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -33,14 +33,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             super(view);
             title = (TextView) view.findViewById(R.id.title);
             category = (TextView) view.findViewById(R.id.category);
-            quantity = (TextView) view.findViewById(R.id.quantity);
+            quantity = (TextView) view.findViewById(R.id.quantityItem);
             letter = (ImageView) view.findViewById(R.id.imageView);
             check = (ImageView) view.findViewById(R.id.checkIcon);
             ingredientListItem = (LinearLayout)view.findViewById(R.id.movieListItem);
         }
     }
 
-    public MoviesAdapter(Context context, List<Ingredient> moviesList, List<Ingredient> selectedList) {
+    public IngredientsAdapter(Context context, List<Ingredient> moviesList, List<Ingredient> selectedList) {
         this.mContext = context;
         this.moviesList = moviesList;
         this.selectedIngredientList = selectedList;
@@ -50,7 +50,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.ingredient_list_row, parent, false);
-
         return new MyViewHolder(itemView);
     }
 
