@@ -36,6 +36,7 @@ import com.codesparts.toastappclient.model.Ingredient;
 import com.codesparts.toastappclient.others.AlertDialogHelper;
 import com.codesparts.toastappclient.activity.auth.LoginActivity;
 import com.codesparts.toastappclient.adapters.IngredientsAdapter;
+import com.codesparts.toastappclient.others.DividerItemDecoration;
 import com.codesparts.toastappclient.others.RecyclerItemClickListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -64,7 +65,6 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionsMenu fabMenu;
     private Animation fab_open, fab_close;
     private Vibrator vibe;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
     AlertDialogHelper alertDialogHelper;
 
     @Override
@@ -205,26 +205,23 @@ public class MainActivity extends AppCompatActivity
             mActionMode = null;
             isMultiSelect = false;
             ingredientSelectedList = new ArrayList<>();
-            fabMenu.startAnimation(fab_open);
-            fabMenu.setVisibility(View.VISIBLE);
+            fabMenu.startAnimation(fab_open); fabMenu.setVisibility(View.VISIBLE);
             getWindow().setStatusBarColor(Color.parseColor("#ffcc4f3f"));
             getSupportActionBar().show();
-            fab.startAnimation(fab_close);
-            fab.setVisibility(View.INVISIBLE);
+            fab.startAnimation(fab_close); fab.setVisibility(View.INVISIBLE);
             refreshAdapter();
         }
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
             return false;
-
         }
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.action_delete:
-                    alertDialogHelper.showAlertDialog("","Delete Contact","DELETE","CANCEL",1,false);
+                    alertDialogHelper.showAlertDialog("Delete Items", "Delete Selected Ingredient?", "DELETE", "CANCEL", 1, false);
                     return true;
                 default:
                     return false;
