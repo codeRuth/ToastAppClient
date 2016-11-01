@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionsMenu fabMenu;
     private Animation fab_open, fab_close;
     private Vibrator vibe;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private AppBarLayout aLayout;
     AlertDialogHelper alertDialogHelper;
 
     @Override
@@ -147,6 +147,8 @@ public class MainActivity extends AppCompatActivity
         mAdapter = new IngredientsAdapter(this, ingredientList, ingredientSelectedList);
         recyclerView.setAdapter(mAdapter);
 
+        aLayout = (AppBarLayout) findViewById(R.id.appBar);
+
         recyclerView.setHasFixedSize(true);
         //recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -193,7 +195,8 @@ public class MainActivity extends AppCompatActivity
             contextMenu = menu;
             fabMenu.startAnimation(fab_close);
             fabMenu.setVisibility(View.INVISIBLE);
-            getSupportActionBar().hide();
+            //getSupportActionBar().hide();
+            aLayout.setBackgroundColor(Color.parseColor("#ff616161"));
             getWindow().setStatusBarColor(Color.parseColor("#ff434343"));
             fab.startAnimation(fab_open);
             fab.setVisibility(View.VISIBLE);
@@ -208,7 +211,9 @@ public class MainActivity extends AppCompatActivity
             fabMenu.startAnimation(fab_open);
             fabMenu.setVisibility(View.VISIBLE);
             getWindow().setStatusBarColor(Color.parseColor("#ffcc4f3f"));
-            getSupportActionBar().show();
+            aLayout.postDelayed(new Runnable() {@Override public void run() { aLayout.setBackgroundColor(Color.parseColor("#fff05d4a")); } }, 250);
+
+            //getSupportActionBar().show();
             fab.startAnimation(fab_close);
             fab.setVisibility(View.INVISIBLE);
             refreshAdapter();
