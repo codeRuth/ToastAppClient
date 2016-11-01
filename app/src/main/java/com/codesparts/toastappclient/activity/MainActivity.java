@@ -191,11 +191,10 @@ public class MainActivity extends AppCompatActivity
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_multi_select, menu);
             contextMenu = menu;
-            getWindow().setStatusBarColor(Color.parseColor("#ff434343"));
-//            fabMenu.animate().translationY(fabMenu.getHeight() + 16).setInterpolator(new AccelerateInterpolator(2)).start();
             fabMenu.startAnimation(fab_close);
             fabMenu.setVisibility(View.INVISIBLE);
             getSupportActionBar().hide();
+            getWindow().setStatusBarColor(Color.parseColor("#ff434343"));
             fab.startAnimation(fab_open);
             fab.setVisibility(View.VISIBLE);
             return true;
@@ -208,8 +207,8 @@ public class MainActivity extends AppCompatActivity
             ingredientSelectedList = new ArrayList<>();
             fabMenu.startAnimation(fab_open);
             fabMenu.setVisibility(View.VISIBLE);
-            getSupportActionBar().show();
             getWindow().setStatusBarColor(Color.parseColor("#ffcc4f3f"));
+            getSupportActionBar().show();
             fab.startAnimation(fab_close);
             fab.setVisibility(View.INVISIBLE);
             refreshAdapter();
